@@ -127,3 +127,40 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#
+# F.Thiebolt
+# Files to ignore
+/.idea
+*.sav
+*.bak
+*.old
+*.swp
+*.kate-swp
+*.pyc
+*.bin
+*.pid
+.~*
+*~
+
+# others
+.vscode
+*.log
+
+# Ignored Files to keep anyway
+!tests/*/*.bin
+
+# PlatformIO specific
+.clang_complete
+.gcc-flags.json
+.pioenvs
+.piolibdeps
+
+# Virtualenv
+*venv
+share
+lib
+include
+pip-selfcheck.json
+local
+

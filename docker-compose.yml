@@ -1,0 +1,52 @@
+version: '3.5'
+
+services:
+  app:
+    build: .
+    #image: sensOCampus
+    #[may.21] during initial sensOCampusV2 development, container will get called sensOCampus2
+    image: sensocampus2
+    # container-name implies only one instance
+    container_name: sensOCampus2
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      #[may.21] having sensocampus source code shared through a dedicated directory is disabled
+      # ONLY for development mode
+      # ==> REQUIRES YOU TO BE WITHIN /nfs/sensOCampus directory !!
+      #- ${PWD}/app:/opt/app
+    network_mode: bridge
+    ports:
+      # <host_port>:<container_port> is port mapping
+      - "${DOCKER_BASE_SSH_PORT:-2240}:22"      # SSH
+      - "${DOCKER_BASE_APP_PORT:-8080}:8000"    # Web app
+      #- "${DOCKER_BASE_UWSGIMON_PORT:-8041}:8042"    # uwsgi stats port (DEPRECTADE by Prometheus)
+    #env_file:
+      # environment section has precedence over env_file
+      #- ${PWD}/autOCampus-icu.env
+    environment:
+      # DEBUG is the app. debugging feature
+      # SIM is the read-only mode (i.e no write to any database) for testing purposes
+      # DEVEL force sqlite usage (==> no Postgres usage)
+      # DJANGO_DEBUG as you guessed ;)
+      - PYTHONUNBUFFERED=1
+      - DJANGO_DEBUG
+      - DEBUG
+      - SIM
+      - DEVEL
+      # [apr.22] DJANGO_SECRET_KEY will get regenerated every whole app restart
+      #- DJANGO_SECRET_KEY
+      # MQTT
+      - MQTT_SERVER
+      - MQTT_PORT
+      - MQTT_USER=autocampus-icu
+      - MQTT_PASSWD
+      # json format for MQTT_TOPICS to subscribe to
+      - MQTT_TOPICS=[ "#/device" ]
+      # DB backend (unless overriden by DEVEL env var)
+      - PGSQL_USER=autocampus-icu
+      - PGSQL_PASSWD
+      - PGSQL_SERVER=172.17.0.1
+      - PGSQL_PORT
+      - PGSQL_DATABASE=autocampus-icu
+
