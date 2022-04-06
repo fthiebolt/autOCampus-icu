@@ -1,0 +1,4 @@
+
+=== [apr.22] project start :) ===
+- trying to generate a DJANGO_SECRET_KEY @ each startup and set within settings.py file
+
