@@ -2,7 +2,7 @@
 # [nov.19] Paho-mqtt 1.4.0 and 1.5.0 hang when using lock in callbacks !!
 paho-mqtt==1.3.*
 # Django
-django
+django==4.*
 django-extensions
 django-bootstrap4
 pyinotify
