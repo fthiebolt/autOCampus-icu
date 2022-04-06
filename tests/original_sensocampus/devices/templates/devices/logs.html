@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">Device logs</div>
+
+    <div class="panel-body">
+
+         <form action="{% url 'devices:logs' %}" method="post">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {% if field.errors %}
+                        <div class="alert alert-danger" role="alert">{{ field.errors }}</div>
+                    {% endif %}
+                    {{ field }}
+                    <p class="help-block"> {{ field.help_text | safe }} </p>
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-default">Get</button>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock content %}

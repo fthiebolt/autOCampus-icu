@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>Connect all the things</h1>
+        <p>sensOCampus is at the heart of the neOCampus platform</p>
+        <p>simple and powerful device management for MQTT-based IoT architectures</p>
+        <p><a class="btn btn-primary btn-lg" href="http://neocampus.univ-tlse3.fr/" role="button">learn more &raquo;</a></p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Devices</h2>
+            <p>{{ device_count }} awesome intelligent devices registered</p>
+        </div>
+
+        <div class="col-md-4">
+            <h2>Messages</h2>
+            <p>NaN smart bits of data exchanged</p>
+        </div>
+
+        <div class="col-md-4">
+            <h2>Modules</h2>
+            <p>NaN busy modules working</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <footer>
+    <p>&copy; 2016 <a href="http://www.univ-tlse3.fr/">UPS</a> - <a href="http://www.irit.fr/">IRIT</a></p>
+    </footer>
+</div>
+{% endblock content %}
