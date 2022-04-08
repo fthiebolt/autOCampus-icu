@@ -51,6 +51,7 @@ RUN echo -e "Starting setup ..." \
     # System stuffs
     && apt-get -y update \
     && apt-get -y --allow-unauthenticated install \
+        apt-utils \
         git \
         procps \
         tmux \
@@ -65,7 +66,8 @@ RUN echo -e "Starting setup ..." \
         uwsgi-plugin-python3 \
         python3-dev \
         python3-ipython \
-        sqlite \
+        sqlite3 \
+        libsqlite3-mod-spatialite \
         mime-support \
         vim \
     # Supervisor setup
