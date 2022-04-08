@@ -3,17 +3,16 @@ version: '3.5'
 services:
   app:
     build: .
-    #image: sensOCampus
+    #image: autocampus-icu
     #[may.21] during initial sensOCampusV2 development, container will get called sensOCampus2
-    image: sensocampus2
+    image: autocampus-icu
     # container-name implies only one instance
-    container_name: sensOCampus2
+    container_name: autocampus-icu
     restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      #[may.21] having sensocampus source code shared through a dedicated directory is disabled
       # ONLY for development mode
-      # ==> REQUIRES YOU TO BE WITHIN /nfs/sensOCampus directory !!
+      # ==> REQUIRES YOU TO BE WITHIN <path>/autOCampus-icu directory !!
       #- ${PWD}/app:/opt/app
     network_mode: bridge
     ports:
@@ -35,7 +34,7 @@ services:
       - SIM
       - DEVEL
       # [apr.22] DJANGO_SECRET_KEY will get regenerated every whole app restart
-      #- DJANGO_SECRET_KEY
+      - DJANGO_SECRET_KEY
       # MQTT
       - MQTT_SERVER
       - MQTT_PORT

@@ -18,16 +18,17 @@ When you start this application (see below), you can pass several environment va
 
   - **DEBUG=1** this is our application debug feature
   - **SIM=1** this is our application simulation feature: kind of *read-only* mode (i.e no write to any database)
+  - **DEVEL=1** in DEVELOPPER mode, Django backend will be sqlite
   - **DJANGO_DEBUG=1** this is debug to Django's internals
-  - **DJANGO_SECRET_KEY** Django's internal secret key [mandatory]
+  - **DJANGO_SECRET_KEY** Django's internal secret key (will be dynamically generated if not specified)
   - **MQTT_SERVER** and **MQTT_PORT**
   - **MQTT_USER** and **MQTT_PASSWD** are sensOCampus own MQTT credentials
   - **MQTT_TOPICS** json formated list of topics to subscribe to (usually #/device)
-  - **MQTT_UNITID** is a neOCampus identifier fr msg filtering
+  - **MQTT_UNITID** is a neOCampus identifier for msg filtering
   - **PGSQL_USER** and **PGSQL_PASSWD** are Postgres credentials for sensOCampus' internal database
   - **PGSQL_SERVER**=172.17.0.1   this is the docker gateway
   - **PGSQL_PORT**=5432
-  - **PGSQL_DATABASE**=sensocampus    name of the database
+  - **PGSQL_DATABASE**=autocampus-icu    name of the database
 
 
 ### [HTTP] git clone ###
@@ -37,20 +38,20 @@ Only **first time** operation.
 
 ### git pull ###
 ```
-cd autOCampus-icu
+cd <repository>
 git pull
 ```
 
 ### git push ###
 ```
-cd autOCampus-icu
+cd <repository>
 ./git-push.sh
 ```
 
 **detached head case**
 To commit mods to a detached head (because you forget to pull head mods before undertaking your own mods)
 ```
-cd <submodule>
+cd <repository>
 git branch tmp
 git checkout master
 git merge tmp
@@ -58,46 +59,38 @@ git branch -d tmp
 ```
 
 
-
-**TO BE CONTINUED**
-**TO BE CONTINUED**
-**TO BE CONTINUED**
-**TO BE CONTINUED**
-
-
-
-
 ### start container ###
 ```
-cd sensocampus
-DJANGO_DEBUG=1 SIM=1 DEBUG=1 \
-MQTT_PASSWD='passwd' PGSQL_PASSWD='passwd' DJANGO_SECRET_KEY='<xxxxxx>' \
+cd <repository>
+SIM=1 \
+DJANGO_DEBUG=1 DEBUG=1 DEVEL=1 \
+MQTT_PASSWD='passwd' PGSQL_PASSWD='passwd' \
 docker-compose --verbose up -d
-```  
+```
 
 ### fast update of existing running container ###
 ```
-cd sensocampus
+cd <repository>
 git pull
-DEBUG=1 MQTT_PASSWD='passwd' PGSQL_PASSWD='passwd' DJANGO_SECRET_KEY='<xxxxxx>' docker-compose --verbose up --build -d
-```  
+DEBUG=1 MQTT_PASSWD='passwd' PGSQL_PASSWD='passwd' docker-compose --verbose up --build -d
+```
 
 ### ONLY (re)generate image of container ###
 ```
-cd sensocampus
+cd <repository>
 docker-compose build --force-rm --no-cache
-[alternative] docker build --no-cache -t sensocampus2 -f Dockerfile .
+[alternative] docker build --no-cache -t autOCampus-icu -f Dockerfile .
 ```
 
 ### start container for maintenance ###
 ```
-cd sensocampus
-docker run -v /etc/localtime:/etc/localtime:ro -v "$(pwd)"/app:/opt/app:rw -it sensOCampus2 bash
+cd <repository>
+docker run -v /etc/localtime:/etc/localtime:ro -v "$(pwd)"/app:/opt/app:rw -it autOCampus-icu bash
 ```
 
 ### ssh root @ container ? ###
 Yeah, sure like with any VM:
 ```
 ssh -p xxxx root@locahost
-```  
+```
 
