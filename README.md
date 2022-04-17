@@ -9,7 +9,7 @@ This app. is responsible to manage all of the neOCampus IoT end-devices:
   - send end-devices' specific JSON configuration
   - Prometheus end-point (internal monitoring)
 
-![autOCampus-ICU overview](images/autOCampus_overview.png)
+![autOCampus-ICU overview](images/autOCampus-icu_overview.png)
 
 **[may.21] During the initial sensOCampusV2 development, its container will get named sensocampus2**
 
