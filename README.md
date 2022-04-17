@@ -11,8 +11,6 @@ This app. is responsible to manage all of the neOCampus IoT end-devices:
 
 ![autOCampus-ICU overview](images/autOCampus-icu_overview.png)
 
-**[may.21] During the initial sensOCampusV2 development, its container will get named sensocampus2**
-
 ### Environment variables ###
 When you start this application (see below), you can pass several environment variables:
 
