@@ -1,0 +1,38 @@
+version: "2.2"
+
+services:
+  redis:
+    image: redis
+    command: redis-server
+    ports:
+      - "14000:6379"
+
+  channels-api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: Channels-API
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    restart: "always"
+    links:
+      - redis
+    depends_on:
+      - redis
+  carte:
+      build:
+         context: ./carte
+         dockerfile: Dockerfile
+      container_name: carte_frontend
+      volumes:
+         - ./carte:/app
+         - /app/node_modules
+      ports:
+        - 3000:3000
+      stdin_open: true
+      depends_on:
+         - channels-api
+    
