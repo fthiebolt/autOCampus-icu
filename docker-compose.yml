@@ -1,28 +1,27 @@
-version: '3.5'
+version: "2.2"
 
 services:
-  app:
-    build: .
-    #image: autocampus-icu
-    #[may.21] during initial sensOCampusV2 development, container will get called sensOCampus2
-    image: autocampus-icu
-    # container-name implies only one instance
-    container_name: autocampus-icu
-    restart: unless-stopped
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      # ONLY for development mode
-      # ==> REQUIRES YOU TO BE WITHIN <path>/autOCampus-icu directory !!
-      #- ${PWD}/app:/opt/app
-    network_mode: bridge
+  redis:
+    image: redis
+    command: redis-server
     ports:
-      # <host_port>:<container_port> is port mapping
-      - "${DOCKER_BASE_SSH_PORT:-2232}:22"      # SSH
-      - "${DOCKER_BASE_APP_PORT:-8012}:8000"    # Web app
-      #- "${DOCKER_BASE_UWSGIMON_PORT:-8041}:8042"    # uwsgi stats port (DEPRECTADE by Prometheus)
-    #env_file:
-      # environment section has precedence over env_file
-      #- ${PWD}/autOCampus-icu.env
+      - "${DOCKER_BASE_REDIS_SERVER_PORT:-6379}:6379" #Redis server
+
+  autocampus-icu-backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: AutOCampus-ICU-Backend
+    command: python app/autOCampus-icu-backend/manage.py runserver 0.0.0.0:8000 --noreload
+    volumes:
+      - .:/app
+    ports:
+      - "${DOCKER_BASE_APP_PORT:-8012}:8000" # Web app
+    restart: "always"
+    links:
+      - redis
+    depends_on:
+      - redis
     environment:
       # DEBUG is the app. debugging feature
       # SIM is the read-only mode (i.e no write to any database) for testing purposes
@@ -34,18 +33,18 @@ services:
       - SIM
       - DEVEL
       # [apr.22] DJANGO_SECRET_KEY will get regenerated every whole app restart
-      - DJANGO_SECRET_KEY
+      - DJANGO_SECRET_KEY=4!+f*30)%_^u(&pbz0#ldt+-p5ez(i@auul%j#7@(bgt-*y)#d
       # MQTT
-      - MQTT_SERVER
-      - MQTT_PORT
-      - MQTT_USER=autocampus-icu
+      - MQTT_SERVER=neocampus.univ-tlse3.fr
+      - MQTT_PORT=1883
+      - MQTT_TIMEOUT=60
+      - MQTT_USER=test
       - MQTT_PASSWD
       # json format for MQTT_TOPICS to subscribe to
-      - MQTT_TOPICS=[ "#/device" ]
+      - MQTT_TOPICS={ "1":"TestTopic/devices" }
       # DB backend (unless overriden by DEVEL env var)
       - PGSQL_USER=autocampus-icu
       - PGSQL_PASSWD
       - PGSQL_SERVER=172.17.0.1
       - PGSQL_PORT
       - PGSQL_DATABASE=autocampus-icu
-

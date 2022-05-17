@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X6UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <title>Connexion -ICU-</title>
+</head>
+<body>
+    <section>
+        <div class="container">
+            <div class="promotext">
+                <h3 class="w3-animate-top">Welcome</h3>
+                <h3 class="w3-animate-top">To AutOCampus-ICU</h3>
+                <p class="w3-animate-bottom">let's see what we have prepared for you</p>
+            </div>
+            <form class="login w3-animate-zoom" method="post"> {% csrf_token %}
+                <h4>Log in</h4>
+                <p>to your account</p>
+                <div class="logbox">
+                    <div class="inputbox">
+                        <input class="w3-input" type="text" name="username">
+                        <span>User name</span>
+                    </div>
+                    <div class="inputbox">
+                        <input class="w3-input" type="password" name="password">
+                        <span>Password</span>
+                    </div>
+                </div>
+                <button type="submit" class="button">Log in</button>
+            </form>
+            <div class="bcgimage"></div>
+        </div>
+    </section>
+</body>
+</html>

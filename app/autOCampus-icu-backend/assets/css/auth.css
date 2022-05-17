@@ -1,0 +1,104 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+section{
+    position: relative;
+    min-height: 100vh;
+    background-image: url("snow2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container{
+    margin: 0 10%;
+}
+
+.promotext{
+    padding-top: 24%;
+    color: #ddedff;
+    text-shadow: 1px 1px 11px #022e77;
+}
+
+.promotext h3 {
+    font-size: 5.5rem;
+    line-height: 1;
+}
+
+.promotext p {
+    font-size: 2.2rem;
+    font-weight: 300;
+    margin-top: 40px;
+}
+
+.login{
+    position: absolute;
+    margin-left: 40px;
+    padding: 50px 80px;
+    text-align: center;
+    box-shadow: 3px 6px 30px 8px rgb(58 58 58 / 30%);
+    background: rgba(3, 27, 65, 0.5);
+    right: 15%;
+    bottom: 20%;
+    height: 57%;
+    border: 1px solid;
+    border-top-color: #02274d;
+    border-left-color: #02274d;
+    border-bottom-color: #00000030;
+    border-right-color: #00000030;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+}
+
+.login h4 {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #d7f52b;
+}
+
+.login p {
+    font-size: 18px;
+    color: #d7f52b;
+}
+
+.inputbox {
+    position: relative;
+    margin-top: 70px;
+    margin-bottom: 50px;
+}
+
+.inputbox input {
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: #eff9ff;
+    background-color: transparent;
+    padding: 4px 3px;
+    outline: none;
+}
+
+.inputbox span {
+    position: absolute;
+    left: 2px;
+    bottom: 40px;
+    letter-spacing: 1px;
+    color: #efff93;
+}
+
+.button{
+    position: relative;
+    cursor: pointer;
+    background: #c0dc20;
+    color: #022e79;
+    font-weight: 600;
+    border: none;
+    font-size: 20px;
+    padding: 18px 80px;
+    text-transform: uppercase;
+    border-radius: 50px;
+    box-shadow: 0 3px 8px 2px rgb(60, 60, 60, 0.3);
+}

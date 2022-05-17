@@ -1,0 +1,38 @@
+version: "2.2"
+
+services:
+  redis:
+    image: redis
+    command: redis-server
+    ports:
+      - "14000:6379"
+
+  autOCampus-icu-backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: AutOCampus-ICU-Backend
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    restart: "always"
+    links:
+      - redis
+    depends_on:
+      - redis
+  autocampus-icu-frontend:
+      build:
+         context: ./carte
+         dockerfile: Dockerfile
+      container_name: AutOCampus-ICU-Frontend
+      volumes:
+         - ./carte:/app
+         - /app/node_modules
+      ports:
+        - 3000:3000
+      stdin_open: true
+      depends_on:
+         - autOCampus-icu-backend
+    
