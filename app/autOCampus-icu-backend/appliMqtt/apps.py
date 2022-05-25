@@ -2,7 +2,6 @@ from django.apps import AppConfig
 from threading import Thread
 import paho.mqtt.client as mqtt
 import json
-from appli.views import iteration, size, Publisher
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from appli.consumer import publishers
@@ -13,6 +12,7 @@ import os
 channel_layer = get_channel_layer()
 taskQueue = queue.Queue()
 
+# used only if you want to process data using a queue
 def worker() : 
     while True:
         message = taskQueue.get()
@@ -56,19 +56,17 @@ class MqttClient(Thread):
         MqttClient.total_messages = MqttClient.total_messages + 1
         message = json.loads(str(msg.payload.decode("utf-8")))
         #taskQueue.put(message)
-        message_send = {}
-        message_send['Type'] = "VARB" #Moving Object
-        message_send['id'] = message['unitID']
-        for i in range(0, len(message['Value'])):
-            message_send[message['Value-Units'][i]] = message['Value'][i]
-
-        print(str(message_send) + "Total: {}".format(MqttClient.total_messages))
-        if len(publishers)!=0 :
-            async_to_sync(channel_layer.group_send)('users', {
-               'type':'location',
-               'text':json.dumps(message_send)})
-        
-
+        if message.get('unitID', False) and message.get('value_units', False) and message.get('value', False):
+            if msg.topic == "TestTopic/devices":  
+                message['Type']="VARB"
+                print(str(message) + "Total: {}".format(MqttClient.total_messages))
+                if len(publishers)!=0 :
+                    async_to_sync(channel_layer.group_send)('users', {
+                        'type':'location',
+                        'text':json.dumps(message)})
+            else : 
+                print("wrong topic")
+                #TODO here we process other topics for now we use Test Topic 'TestTopic/devices'
 
     # The callback for when the client receives a CONNACK response from the server.
     def on_connect(self, client, userdata, flags, rc):
@@ -83,10 +81,10 @@ class CoreConfig(AppConfig):
 
     def ready(self):
         #Thread(target=worker, daemon=True).start()
-        topics_data=json.loads(os.environ["MQTT_TOPICS"])
-        topics = []
-        for key, value in topics_data.items():
-            topics.append(value)
-        MqttClient(os.environ["MQTT_SERVER"],int(os.environ["MQTT_PORT"]), int(os.environ["MQTT_TIMEOUT"]
-), topics).start()
-        print("ready")
+        if os.environ.get('DJANGO_SECRET_KEY', False) :
+            topics_data=json.loads(os.environ["MQTT_TOPICS"])
+            topics = []
+            for key, value in topics_data.items():
+                topics.append(value)
+            MqttClient(os.environ["MQTT_SERVER"],int(os.environ["MQTT_PORT"]), int(os.environ["MQTT_TIMEOUT"]), topics).start()
+            print("ready")

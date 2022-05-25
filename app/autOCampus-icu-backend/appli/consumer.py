@@ -1,6 +1,4 @@
 from time import sleep
-from appli.views import Publisher
-from .views import iteration, size
 
 publishers = {}
 

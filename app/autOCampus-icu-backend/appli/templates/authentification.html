@@ -10,6 +10,13 @@
     <title>Connexion -ICU-</title>
 </head>
 <body>
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
     <section>
         <div class="container">
             <div class="promotext">
