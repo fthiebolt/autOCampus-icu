@@ -154,7 +154,8 @@ function updateDevices(jsonObj, date){
     data[jsonObj['value_units'][j]] = jsonObj['value'][j];
   data['id'] = jsonObj['unitID']
   console.log(data)
-  devices[data.id] = {"lat" :data.lat, "lon" : data.lon, "TimeStamp": date};
+  if(data.hasOwnProperty('lat') && data.hasOwnProperty('lon'))
+     devices[data.id] = {"lat" :data.lat, "lon" : data.lon, "TimeStamp": date};
   var temp = devices;
   //Update Devices Location
   for(var i in devices)
