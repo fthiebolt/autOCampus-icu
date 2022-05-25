@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>NeOCampus-ICU</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="css/index.css">
+<script src="https://d19vzq90twjlae.cloudfront.net/leaflet-0.7/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+body {
+  font-family: "Times New Roman", Georgia, Serif;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display";
+  font-family: "Times New Roman", Georgia, Serif;
+  letter-spacing: 5px;
+}
+#mapCont{
+    position: relative;
+    z-index: 1;
+}
+#navbar{
+  z-index: 1000;
+}
+
+</style>
+</head>
+<body>
+  <button onclick="clickButton()" class="displayButton" title="Go to top">
+    <i id="displayButton" class='fa fa-angle-double-left' style='font-size:48px'></i>
+  </button> 
+  <!-- Page content -->
+  <div class="w3-content" style="max-width:100%;">
+    <div id="mapCont" class="w3-responsive w3-row">
+        <div id="root" class="w3-card-4 w3-container"
+          style="height: 100%; width: 100%;">
+        </div>
+    </div>
+<script>
+  // Get the modal
+  var contactModal = document.getElementById('id01');
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+      if (event.target == contactModal) {
+        contactModal.style.display = "none";
+      }
+  }
+  window.onresize = function(event) {
+      document.getElementById('map').style.height = window.innerHeight+"px" ;
+      document.getElementById('DevicesTable').style.maxHeight = window.innerHeight*0.5 +"px" ;
+  }
+  function clickButton(){
+    if(document.getElementById('DevicesTable').style.display=='block'){
+        document.getElementById('scroll').style.overflow='hidden';
+        document.getElementById('DevicesTable').style.display='none';
+        document.getElementById('displayButton').setAttribute("class", "fa fa-angle-double-left");
+    }else{
+        document.getElementById('scroll').style.overflow='scroll';
+        document.getElementById('DevicesTable').style.display='block';
+        document.getElementById('displayButton').setAttribute("class", "fa fa-angle-double-right");
+    }
+  }
+//   $("#loginForm").submit(function(e) {
+//     alert("my name1");
+//     e.preventDefault();
+// });
+  </script>
+</body>
+</html>
